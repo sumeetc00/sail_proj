@@ -5,6 +5,10 @@
 const bit<16> TYPE_IPV4 = 0x800;
 const int<17> LENGTH_4_BITMAP = 0b0001000000000010;
 const int<33> LENGTH_5_BITMAP = 0b0;
+const int<256> LENGTH_8_BITMAP = 0x0;
+const int<512> LENGTH_9_BITMAP = 0x0;
+const int<1024> LENGTH_10_BITMAP = 0x0;
+const int<2048> LENGTH_11_BITMAP = 0x0;
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -81,7 +85,6 @@ parser MyParser(packet_in packet,
 ************   C H E C K S U M    V E R I F I C A T I O N   *************
 *************************************************************************/
 
-/*SECOND STAGE OF BINARY SEARCH*/
 control MyVerifyChecksum(inout headers hdr, inout metadata meta) {
     apply { }
 }
@@ -91,7 +94,6 @@ control MyVerifyChecksum(inout headers hdr, inout metadata meta) {
 **************  I N G R E S S   P R O C E S S I N G   *******************
 *************************************************************************/
 
-/*THIRD STAGE OF BINARY SEARCH*/
 control MyIngress(inout headers hdr,
                   inout metadata meta,
                   inout standard_metadata_t standard_metadata) {
@@ -109,12 +111,23 @@ control MyIngress(inout headers hdr,
     action process_next_hops_exact(macAddr_t dstAddr, egressSpec_t port) {
         meta.dstAddr = dstAddr;
         meta.outPort = port;
+        standard_metadata.egress_spec = port;
+        hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
+        hdr.ethernet.dstAddr = dstAddr;
+        hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
     }
 
     action process_longer_prefixes_lpm(bit<1> matched, macAddr_t dstAddr, egressSpec_t port) {
         meta.alreadyMatched = matched;
         meta.dstAddr = dstAddr;
         meta.outPort = port;
+
+        if (matched == 1) {
+          standard_metadata.egress_spec = port;
+          hdr.ethernet.srcAddr = hdr.ethernet.dstAddr;
+          hdr.ethernet.dstAddr = dstAddr;
+          hdr.ipv4.ttl = hdr.ipv4.ttl - 1;
+        }
     }
 
     table next_hops_exact {
@@ -163,7 +176,6 @@ control MyIngress(inout headers hdr,
           shouldContinue = 0;
           meta.ip = hdr.ipv4.dstAddr;
         //}
-
         meta.alreadyMatched = 0;
 
         // TCAM table lookup

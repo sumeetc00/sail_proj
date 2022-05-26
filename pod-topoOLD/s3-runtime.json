@@ -12,23 +12,31 @@
     {
       "table": "MyIngress.longer_prefixes_lpm",
       "default_action": true,
+      "action_name": "MyIngress.drop",
+      "action_params": {}
+    },
+    {
+      "table": "MyIngress.longer_prefixes_lpm",
+      "match": {
+        "hdr.ipv4.dstAddr": ["10.0.1.1", 32]
+      },
       "action_name": "MyIngress.process_longer_prefixes_lpm",
       "action_params": {
-        "matched": 0,
+        "matched": 1,
         "dstAddr": "08:00:00:00:01:11",
         "port": 1
       }
     },
     {
-      "table": "MyIngress.longer_prefixes_lpm",
+      "table": "MyIngress.next_hops_exact",
       "match": {
-        "hdr.ipv4.dstAddr": ["1.2.3.4", 32]
+        "meta.length": 4,
+        "meta.numeric": 15
       },
-      "action_name": "MyIngress.process_longer_prefixes_lpm",
+      "action_name": "MyIngress.process_next_hops_exact",
       "action_params": {
-        "matched": 1,
-        "dstAddr": "08:00:00:00:05:55",
-        "port": 5
+        "dstAddr": "08:00:00:00:01:11",
+        "port": 4
       }
     },
     {
@@ -40,19 +48,19 @@
       "action_name": "MyIngress.process_next_hops_exact",
       "action_params": {
         "dstAddr": "08:00:00:00:01:11",
-        "port": 1
+        "port": 4
       }
     },
     {
       "table": "MyIngress.next_hops_exact",
       "match": {
         "meta.length": 4,
-        "meta.numeric": 12
+        "meta.numeric": 1
       },
       "action_name": "MyIngress.process_next_hops_exact",
       "action_params": {
-        "dstAddr": "08:00:00:00:02:22",
-        "port": 2
+        "dstAddr": "08:00:00:00:01:11",
+        "port": 5
       }
     }
   ]
