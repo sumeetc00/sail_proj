@@ -726,6 +726,21 @@
                 "dstAddr": "08:00:00:00:05:55",
                 "port": 5
             }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "192.168.0.1",
+                    16
+                ]
+            },
+            "action_name": "MyIngress.process_longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
         }
     ]
 }

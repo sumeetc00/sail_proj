@@ -22,7 +22,7 @@
     {
       "table": "MyIngress.longer_prefixes_lpm",
       "match": {
-        "hdr.ipv4.dstAddr": ["1.2.3.4", 32]
+        "hdr.ipv4.dstAddr": ["192.168.0.0", 16]
       },
       "action_name": "MyIngress.process_longer_prefixes_lpm",
       "action_params": {
