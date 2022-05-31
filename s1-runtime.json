@@ -4,6 +4,22 @@
     "bmv2_json": "build/basic.json",
     "table_entries": [
         {
+          "table": "MyIngress.next_hops_exact",
+          "default_action": true,
+          "action_name": "MyIngress.drop",
+          "action_params": { }
+        },
+        {
+          "table": "MyIngress.longer_prefixes_lpm",
+          "default_action": true,
+          "action_name": "MyIngress.process_longer_prefixes_lpm",
+          "action_params": {
+            "matched": 0,
+            "dstAddr": "08:00:00:00:01:11",
+            "port": 1
+          }
+        },
+        {
             "table": "MyIngress.next_hops_exact",
             "match": {
                 "meta.length": 8,

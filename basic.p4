@@ -5,10 +5,9 @@
 const bit<16> TYPE_IPV4 = 0x800;
 const int<17> LENGTH_4_BITMAP = 0b0001000000000001;
 const int<33> LENGTH_5_BITMAP = 0b0;
-const int<256> LENGTH_8_BITMAP = 0x0;
-const int<512> LENGTH_9_BITMAP = 0x0;
-const int<1024> LENGTH_10_BITMAP = 0x0;
-const int<2048> LENGTH_11_BITMAP = 0x0;
+const int<257> LENGTH_8_BITMAP = 0b0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000;
+const int<513> LENGTH_9_BITMAP = 0b00000000110000001100000011000000001100000000000000000000000000000000001000000000000000000000000000000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000;
+const int<1025> LENGTH_10_BITMAP = 0b0000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000010000000000011001100000000000000000010000000000010000000000000000000000000001010000000000000000010000000000000000000001000000000000000000000000000000000000001000000000001000100000000000000000010000000100010000000001000001000000001000000000010000000010000000000000000000000100000000000000001001010000000000000000000000000000010000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001000000001000000100000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000100000000000000000000000000000000000000000000000000000000001000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000;
 
 /*************************************************************************
 *********************** H E A D E R S  ***********************************
@@ -161,27 +160,61 @@ control MyIngress(inout headers hdr,
     // find out the length of the longest matching prefix here
         bit<1> shouldContinue = 1;
 
-        bit<5> val5 = (bit<5>) (hdr.ipv4.dstAddr >> 27);
-        if ((LENGTH_5_BITMAP >> val5) & 0b1 == 0b1) {
-           meta.length = 5;
-           meta.numeric = (bit<32>)(val5);
-           shouldContinue = 0;
-        }
-
-        //bit<10> val10 = (bit<10>) (hdr.ipv4.dstAddr >> 22);
-        //if ((LENGTH_10_BITMAP >> val10) & 0b1 == 0b1) {
-        //   meta.length = 10;
-        //   meta.numeric = (bit<32>)(val10);
+        //bit<5> val5 = (bit<5>) (hdr.ipv4.dstAddr >> 27);
+        //if ((LENGTH_5_BITMAP >> val5) & 0b1 == 0b1) {
+        //   meta.length = 5;
+        //   meta.numeric = (bit<32>)(val5);
         //   shouldContinue = 0;
         //}
 
-        bit<4> val4 = (bit<4>) (hdr.ipv4.dstAddr >> 28);
-        if (shouldContinue == 1 && (LENGTH_4_BITMAP >> val4) & 0b1 == 0b1) {
-          meta.length = 4;
-          meta.numeric = (bit<32>) val4;
+        //bit<4> val4 = (bit<4>) (hdr.ipv4.dstAddr >> 28);
+        //if (shouldContinue == 1 && (LENGTH_4_BITMAP >> val4) & 0b1 == 0b1) {
+        //  meta.length = 4;
+        //  meta.numeric = (bit<32>) val4;
+        //  shouldContinue = 0;
+        //  meta.ip = hdr.ipv4.dstAddr;
+        //}
+
+        bit<10> val10 = (bit<10>) (hdr.ipv4.dstAddr >> 22);
+        bit<8> temp10 = (bit<8>) (val10 >> 2);
+        int<1025> map10_shifted = LENGTH_10_BITMAP >> temp10;
+        map10_shifted = map10_shifted >> temp10;
+        map10_shifted = map10_shifted >> temp10;
+        map10_shifted = map10_shifted >> temp10;
+        if (val10 & 0b1 == 0b1) {
+          map10_shifted = map10_shifted + 1;
+        }
+        if (val10 & 0b10 == 0b10) {
+          map10_shifted = map10_shifted + 2;
+        }
+        if (map10_shifted & 0b1 == 0b1) {
+           meta.length = 10;
+           meta.numeric = (bit<32>)(val10);
+           shouldContinue = 0;
+        }
+
+        bit<9> val9 = (bit<9>) (hdr.ipv4.dstAddr >> 23);
+        bit<8> temp9 = (bit<8>)(val9 >> 1);
+        int<513> map9_shifted = LENGTH_9_BITMAP >> temp9;
+        map9_shifted = map9_shifted >> temp9;
+        if (val9 & 0b1 == 0b1) {
+          map9_shifted = map9_shifted + 1;
+        }
+        if (shouldContinue == 1 && ((map9_shifted & 0b1) == 0b1)) {
+          meta.length = 9;
+          meta.numeric = (bit<32>) val9;
           shouldContinue = 0;
           meta.ip = hdr.ipv4.dstAddr;
         }
+
+        bit<8> val8 = (bit<8>) (hdr.ipv4.dstAddr >> 24);
+        if (shouldContinue == 1 && (LENGTH_8_BITMAP >> val8) & 0b1 == 0b1) {
+          meta.length = 8;
+          meta.numeric = (bit<32>) val8;
+          shouldContinue = 0;
+          meta.ip = hdr.ipv4.dstAddr;
+        }
+
         meta.alreadyMatched = 0;
 
         // TCAM table lookup
