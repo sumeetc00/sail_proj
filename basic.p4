@@ -3,7 +3,7 @@
 #include <v1model.p4>
 
 const bit<16> TYPE_IPV4 = 0x800;
-const int<17> LENGTH_4_BITMAP = 0b0001000000000010;
+const int<17> LENGTH_4_BITMAP = 0b0001000000000001;
 const int<33> LENGTH_5_BITMAP = 0b0;
 const int<256> LENGTH_8_BITMAP = 0x0;
 const int<512> LENGTH_9_BITMAP = 0x0;
@@ -162,20 +162,26 @@ control MyIngress(inout headers hdr,
         bit<1> shouldContinue = 1;
 
         bit<5> val5 = (bit<5>) (hdr.ipv4.dstAddr >> 27);
-
         if ((LENGTH_5_BITMAP >> val5) & 0b1 == 0b1) {
            meta.length = 5;
            meta.numeric = (bit<32>)(val5);
            shouldContinue = 0;
         }
 
+        //bit<10> val10 = (bit<10>) (hdr.ipv4.dstAddr >> 22);
+        //if ((LENGTH_10_BITMAP >> val10) & 0b1 == 0b1) {
+        //   meta.length = 10;
+        //   meta.numeric = (bit<32>)(val10);
+        //   shouldContinue = 0;
+        //}
+
         bit<4> val4 = (bit<4>) (hdr.ipv4.dstAddr >> 28);
-        //if (shouldContinue == 1 && (LENGTH_4_BITMAP >> val4) & 0b1 == 0b1) {
+        if (shouldContinue == 1 && (LENGTH_4_BITMAP >> val4) & 0b1 == 0b1) {
           meta.length = 4;
           meta.numeric = (bit<32>) val4;
           shouldContinue = 0;
           meta.ip = hdr.ipv4.dstAddr;
-        //}
+        }
         meta.alreadyMatched = 0;
 
         // TCAM table lookup

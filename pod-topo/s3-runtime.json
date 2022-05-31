@@ -1,59 +1,731 @@
 {
-  "target": "bmv2",
-  "p4info": "build/basic.p4.p4info.txt",
-  "bmv2_json": "build/basic.json",
-  "table_entries": [
-    {
-      "table": "MyIngress.next_hops_exact",
-      "default_action": true,
-      "action_name": "MyIngress.drop",
-      "action_params": { }
-    },
-    {
-      "table": "MyIngress.longer_prefixes_lpm",
-      "default_action": true,
-      "action_name": "MyIngress.process_longer_prefixes_lpm",
-      "action_params": {
-        "matched": 0,
-        "dstAddr": "08:00:00:00:01:11",
-        "port": 1
-      }
-    },
-    {
-      "table": "MyIngress.longer_prefixes_lpm",
-      "match": {
-        "hdr.ipv4.dstAddr": ["10.0.1.1", 32]
-      },
-      "action_name": "MyIngress.process_longer_prefixes_lpm",
-      "action_params": {
-        "matched": 1,
-        "dstAddr": "08:00:00:00:01:11",
-        "port": 1
-      }
-    },
-    {
-      "table": "MyIngress.next_hops_exact",
-      "match": {
-        "meta.length": 4,
-        "meta.numeric": 0
-      },
-      "action_name": "MyIngress.process_next_hops_exact",
-      "action_params": {
-        "dstAddr": "08:00:00:00:01:11",
-        "port": 1
-      }
-    },
-    {
-      "table": "MyIngress.next_hops_exact",
-      "match": {
-        "meta.length": 4,
-        "meta.numeric": 12
-      },
-      "action_name": "MyIngress.process_next_hops_exact",
-      "action_params": {
-        "dstAddr": "08:00:00:00:02:22",
-        "port": 2
-      }
-    }
-  ]
+    "target": "bmv2",
+    "p4info": "build/basic.p4.p4info.txt",
+    "bmv2_json": "build/basic.json",
+    "table_entries": [
+        {
+          "table": "MyIngress.next_hops_exact",
+          "default_action": true,
+          "action_name": "MyIngress.drop",
+          "action_params": { }
+        },
+        {
+          "table": "MyIngress.longer_prefixes_lpm",
+          "default_action": true,
+          "action_name": "MyIngress.process_longer_prefixes_lpm",
+          "action_params": {
+            "matched": 0,
+            "dstAddr": "08:00:00:00:01:11",
+            "port": 1
+          }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 8,
+                "meta.numeric": 214
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 8
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 9
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 16
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 17
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 24
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 25
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 34
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 35
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 70
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 101
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 195
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 201
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.next_hops_exact",
+            "match": {
+                "meta.length": 9,
+                "meta.numeric": 430
+            },
+            "action_name": "MyIngress.process_next_hops_exact",
+            "action_params": {
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "36.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "39.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "39.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "40.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "40.64.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "40.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "60.64.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "75.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "78.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "79.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "84.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "86.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "87.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "91.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "93.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "96.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "97.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "98.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "104.64.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "108.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "111.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "112.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "117.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "120.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "132.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "145.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "172.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "174.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "176.128.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "180.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "183.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "183.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:01:11",
+                "port": 1
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "208.192.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:02:22",
+                "port": 2
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "219.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:03:33",
+                "port": 3
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "220.0.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:04:44",
+                "port": 4
+            }
+        },
+        {
+            "table": "MyIngress.longer_prefixes_lpm",
+            "match": {
+                "hdr.ipv4.dstAddr": [
+                    "223.64.0.0",
+                    10
+                ]
+            },
+            "action_name": "MyIngress.process.longer_prefixes_lpm",
+            "action_params": {
+                "matched": 1,
+                "dstAddr": "08:00:00:00:05:55",
+                "port": 5
+            }
+        }
+    ]
 }
